@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrackFi - Settings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="stylesheet" href="./assets/css/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="app-header__left">
+        <button
+          class="header-menu-toggle"
+          id="sidebarToggle"
+          type="button"
+          aria-label="Toggle navigation"
+          aria-controls="sidebar"
+          aria-expanded="false"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M4 7h16M4 12h16M4 17h16"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+            />
+          </svg>
+        </button>
+
+        <a class="brand" href="./index.html" aria-label="TrackFi home">
+          <span class="brand__icon" aria-hidden="true">
+            <svg viewBox="0 0 25 22">
+              <path
+                d="M8.66667 9.75V21M8.66667 9.75H3.04444C2.32889 9.75 1.97111 9.75 1.69767 9.88625C1.45725 10.0061 1.26178 10.1973 1.13928 10.4325C1 10.7 1 11.05 1 11.75V21H8.66667M8.66667 9.75V3C8.66667 2.3 8.66667 1.95 8.80594 1.6825C8.92845 1.44731 9.12391 1.25609 9.36433 1.13625C9.63778 1 9.99556 1 10.7111 1H14.2889C15.0044 1 15.3622 1 15.6357 1.13625C15.8759 1.25625 16.0701 1.4475 16.1941 1.6825C16.3333 1.95 16.3333 2.3 16.3333 3V6M8.66667 21H16.3333M16.3333 6H21.9556C22.6711 6 23.0289 6 23.3036 6.13625C23.5431 6.25651 23.7376 6.44769 23.8594 6.6825C24 6.95 24 7.3 24 8V21H16.3333M16.3333 6V21"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </span>
+          <span class="brand__label">TrackFi</span>
+        </a>
+      </div>
+
+      <div class="user-dropdown" id="userDropdown">
+        <button
+          class="user-dropdown__trigger"
+          id="userDropdownTrigger"
+          type="button"
+          aria-haspopup="true"
+          aria-controls="userDropdownMenu"
+          aria-expanded="false"
+        >
+          <span class="user-dropdown__avatar" aria-hidden="true">V</span>
+          <span class="user-dropdown__name" data-user-name>Vladislav</span>
+          <span class="user-dropdown__chevron" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="m7 10 5 5 5-5"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </span>
+        </button>
+        <div class="user-dropdown__menu" id="userDropdownMenu" role="menu" aria-label="User menu"></div>
+      </div>
+    </header>
+
+    <div class="app-layout">
+      <aside class="sidebar" id="sidebar">
+        <nav class="sidebar__nav" aria-label="Primary navigation">
+          <div id="sidebarNav"></div>
+        </nav>
+      </aside>
+
+      <main class="settings-page">
+        <section class="settings-page__hero" aria-labelledby="settingsPageTitle">
+          <div class="settings-page__hero-copy">
+            <h1 class="settings-page__title" id="settingsPageTitle" data-page-title>Settings</h1>
+          </div>
+        </section>
+
+        <section class="settings-layout" aria-label="Settings panels">
+          <article class="settings-card account-settings-card" aria-labelledby="accountSettingsTitle">
+            <header class="settings-card__header">
+              <h2 class="settings-card__title" id="accountSettingsTitle" data-account-title>
+                Account Settings
+              </h2>
+            </header>
+
+            <div class="account-settings-card__body">
+              <div class="account-settings-card__row">
+                <div class="settings-field settings-field--name">
+                  <label class="settings-field__label" for="settingsName" data-name-label>Name</label>
+                  <input class="settings-field__input" id="settingsName" type="text" value="Vladislav">
+                </div>
+
+                <div class="settings-field settings-field--email">
+                  <p class="settings-field__email" data-email-value>vladislav@zholudz.com</p>
+                </div>
+
+                <button class="settings-edit-button" type="button">
+                  <span data-account-edit-label>Edit</span>
+                </button>
+              </div>
+
+              <a class="settings-link" href="#" data-change-password-label>Change password</a>
+            </div>
+          </article>
+
+          <article class="settings-card appearance-card" aria-labelledby="appearanceTitle">
+            <header class="settings-card__header">
+              <h2 class="settings-card__title" id="appearanceTitle" data-appearance-title>
+                Appearance
+              </h2>
+            </header>
+
+            <div class="appearance-card__body">
+              <div class="appearance-card__group">
+                <p class="appearance-card__label" data-theme-label>Theme</p>
+                <div class="theme-toggle" role="group" aria-label="Theme selection">
+                  <button class="theme-toggle__option" type="button" data-theme-option="light">
+                    <span class="theme-toggle__icon" aria-hidden="true">
+                      <svg viewBox="0 0 16 16">
+                        <path
+                          d="M8 2V0.5M8 14V15.5M3.8105 3.8105L2.75 2.75M12.296 12.296L13.3565 13.3565M2 8H0.5M14 8H15.5M12.2968 3.8105L13.3572 2.75M3.81125 12.296L2.75 13.3565M8 11.75C7.00544 11.75 6.05161 11.3549 5.34835 10.6517C4.64509 9.94839 4.25 8.99456 4.25 8C4.25 7.00544 4.64509 6.05161 5.34835 5.34835C6.05161 4.64509 7.00544 4.25 8 4.25C8.99456 4.25 9.94839 4.64509 10.6517 5.34835C11.3549 6.05161 11.75 7.00544 11.75 8C11.75 8.99456 11.3549 9.94839 10.6517 10.6517C9.94839 11.3549 8.99456 11.75 8 11.75Z"
+                          fill="#EEDB6C"
+                        />
+                        <path
+                          d="M8 2V0.5M8 14V15.5M3.8105 3.8105L2.75 2.75M12.296 12.296L13.3565 13.3565M2 8H0.5M14 8H15.5M12.2968 3.8105L13.3572 2.75M3.81125 12.296L2.75 13.3565M8 11.75C7.00544 11.75 6.05161 11.3549 5.34835 10.6517C4.64509 9.94839 4.25 8.99456 4.25 8C4.25 7.00544 4.64509 6.05161 5.34835 5.34835C6.05161 4.64509 7.00544 4.25 8 4.25C8.99456 4.25 9.94839 4.64509 10.6517 5.34835C11.3549 6.05161 11.75 7.00544 11.75 8C11.75 8.99456 11.3549 9.94839 10.6517 10.6517C9.94839 11.3549 8.99456 11.75 8 11.75Z"
+                          fill="none"
+                          stroke="#EEDB6C"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </span>
+                    <span class="theme-toggle__label">Light</span>
+                  </button>
+
+                  <button class="theme-toggle__option is-active" type="button" data-theme-option="dark">
+                    <span class="theme-toggle__icon" aria-hidden="true">
+                      <svg viewBox="0 0 16 16">
+                        <path
+                          d="M5.61324 2.72607C5.61324 4.75878 6.42044 6.70824 7.85725 8.14559C9.29406 9.58294 11.2428 10.3904 13.2748 10.3904C14.0494 10.3904 14.796 10.2763 15.5 10.0626C15.0224 11.6359 14.0518 13.0138 12.7313 13.9929C11.4109 14.972 9.81071 15.5004 8.16708 15.5C6.32905 15.5013 4.55179 14.8416 3.15954 13.6411C1.76728 12.4407 0.852836 10.7795 0.583018 8.96075C0.3132 7.14195 0.705996 5.28673 1.68975 3.73354C2.6735 2.18035 4.18263 1.03271 5.94184 0.5C5.72342 1.22181 5.6127 1.97192 5.61324 2.72607Z"
+                          fill="white"
+                          stroke="white"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </span>
+                    <span class="theme-toggle__label">Dark</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <button class="save-settings-button" type="button">
+          <span data-save-label>Save Changes</span>
+        </button>
+      </main>
+    </div>
+
+    <button
+      class="sidebar-backdrop"
+      id="sidebarBackdrop"
+      type="button"
+      aria-label="Close navigation"
+    ></button>
+  </div>
+
+  <script type="module" src="./assets/js/settings.js"></script>
+</body>
+</html>

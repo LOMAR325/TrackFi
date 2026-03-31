@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>TrackFi Dashboard</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+            rel="stylesheet" />
+        <link rel="stylesheet" href="./assets/css/styles.css" />
+    </head>
+    <body>
+        <div class="app-shell">
+            <header class="app-header">
+                <div class="app-header__left">
+                    <button
+                        class="header-menu-toggle"
+                        id="sidebarToggle"
+                        type="button"
+                        aria-label="Toggle navigation"
+                        aria-controls="sidebar"
+                        aria-expanded="false">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path
+                                d="M4 7h16M4 12h16M4 17h16"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2" />
+                        </svg>
+                    </button>
+
+                    <a
+                        class="brand"
+                        href="./index.html"
+                        aria-label="TrackFi home">
+                        <span class="brand__icon" aria-hidden="true">
+                            <svg viewBox="0 0 25 22">
+                                <path
+                                    d="M8.66667 9.75V21M8.66667 9.75H3.04444C2.32889 9.75 1.97111 9.75 1.69767 9.88625C1.45725 10.0061 1.26178 10.1973 1.13928 10.4325C1 10.7 1 11.05 1 11.75V21H8.66667M8.66667 9.75V3C8.66667 2.3 8.66667 1.95 8.80594 1.6825C8.92845 1.44731 9.12391 1.25609 9.36433 1.13625C9.63778 1 9.99556 1 10.7111 1H14.2889C15.0044 1 15.3622 1 15.6357 1.13625C15.8759 1.25625 16.0701 1.4475 16.1941 1.6825C16.3333 1.95 16.3333 2.3 16.3333 3V6M8.66667 21H16.3333M16.3333 6H21.9556C22.6711 6 23.0289 6 23.3036 6.13625C23.5431 6.25651 23.7376 6.44769 23.8594 6.6825C24 6.95 24 7.3 24 8V21H16.3333M16.3333 6V21"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2" />
+                            </svg>
+                        </span>
+                        <span class="brand__label">TrackFi</span>
+                    </a>
+                </div>
+
+                <div class="user-dropdown" id="userDropdown">
+                    <button
+                        class="user-dropdown__trigger"
+                        id="userDropdownTrigger"
+                        type="button"
+                        aria-haspopup="true"
+                        aria-controls="userDropdownMenu"
+                        aria-expanded="false">
+                        <span class="user-dropdown__avatar" aria-hidden="true"
+                            >V</span
+                        >
+                        <span class="user-dropdown__name" data-user-name
+                            >Vladislav</span
+                        >
+                        <span class="user-dropdown__chevron" aria-hidden="true">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="m7 10 5 5 5-5"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2" />
+                            </svg>
+                        </span>
+                    </button>
+                    <div
+                        class="user-dropdown__menu"
+                        id="userDropdownMenu"
+                        role="menu"
+                        aria-label="User menu"></div>
+                </div>
+            </header>
+
+            <div class="app-layout">
+                <aside class="sidebar" id="sidebar">
+                    <nav class="sidebar__nav" aria-label="Primary navigation">
+                        <div id="sidebarNav"></div>
+                    </nav>
+                </aside>
+
+                <main class="dashboard">
+                    <section
+                        class="dashboard-hero"
+                        aria-labelledby="dashboardHeading">
+                        <div class="dashboard-hero__content">
+                            <h1
+                                class="dashboard-hero__title"
+                                id="dashboardHeading">
+                                Welcome back,
+                                <span data-user-greeting>Vladislav</span>!
+                            </h1>
+                            <p class="dashboard-hero__subtitle">
+                                Here&apos;s your financial overview.
+                            </p>
+                        </div>
+
+                        <button
+                            class="new-transaction-button"
+                            id="openTransactionModal"
+                            type="button"
+                            aria-haspopup="dialog"
+                            aria-controls="transactionModal"
+                            aria-expanded="false">
+                            <span
+                                class="new-transaction-button__icon"
+                                aria-hidden="true">
+                                <svg viewBox="0 0 21 20">
+                                    <path
+                                        d="M6.19126 10H10.3443M10.3443 10H14.4973M10.3443 10V14M10.3443 10V6M10.3443 19C9.11716 19 7.90207 18.7672 6.76837 18.3149C5.63467 17.8626 4.60457 17.1997 3.73687 16.364C2.86918 15.5282 2.18088 14.5361 1.71129 13.4442C1.2417 12.3522 1 11.1819 1 10C1 8.8181 1.2417 7.64778 1.71129 6.55585C2.18088 5.46392 2.86918 4.47177 3.73687 3.63604C4.60457 2.80031 5.63467 2.13738 6.76837 1.68508C7.90207 1.23279 9.11716 1 10.3443 1C12.8225 1 15.1993 1.94821 16.9517 3.63604C18.704 5.32387 19.6885 7.61305 19.6885 10C19.6885 12.3869 18.704 14.6761 16.9517 16.364C15.1993 18.0518 12.8225 19 10.3443 19Z"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2" />
+                                </svg>
+                            </span>
+                            <span>New Transaction</span>
+                        </button>
+                    </section>
+
+                    <section
+                        class="dashboard-stats"
+                        id="statsGrid"
+                        aria-label="Financial highlights"></section>
+
+                    <section
+                        class="dashboard-columns"
+                        aria-label="Dashboard insights">
+                        <div class="dashboard-column">
+                            <article
+                                class="card overview-card"
+                                aria-labelledby="overviewTitle">
+                                <div class="card__header">
+                                    <h2 class="card__title" id="overviewTitle">
+                                        Income &amp; Expense Overview
+                                    </h2>
+                                </div>
+                                <div class="card__body">
+                                    <div class="chart-shell chart-shell--overview">
+                                        <canvas id="overviewChart"></canvas>
+                                    </div>
+                                    <div
+                                        class="overview-card__legend"
+                                        aria-label="Overview chart legend">
+                                        <span class="overview-card__legend-item">
+                                            <span
+                                                class="overview-card__legend-swatch overview-card__legend-swatch--income"></span>
+                                            <span>Income</span>
+                                        </span>
+                                        <span class="overview-card__legend-item">
+                                            <span
+                                                class="overview-card__legend-swatch overview-card__legend-swatch--expenses"></span>
+                                            <span>Expenses</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <article
+                                class="card spending-card"
+                                aria-labelledby="spendingBreakdownTitle">
+                                <div class="card__header">
+                                    <h2
+                                        class="card__title"
+                                        id="spendingBreakdownTitle">
+                                        Spending Breakdown
+                                    </h2>
+                                </div>
+                                <div class="card__body spending-card__body">
+                                    <div class="chart-shell chart-shell--spending">
+                                        <canvas id="spendingChart"></canvas>
+                                    </div>
+                                    <div
+                                        class="spending-card__legend"
+                                        id="spendingLegend"></div>
+                                </div>
+                            </article>
+                        </div>
+
+                        <div class="dashboard-column">
+                            <article
+                                class="card recent-transactions-card"
+                                aria-labelledby="recentTransactionsTitle">
+                                <div class="card__header">
+                                    <h2
+                                        class="card__title"
+                                        id="recentTransactionsTitle">
+                                        Recent Transactions
+                                    </h2>
+                                    <a
+                                        class="card__action-link"
+                                        href="./all-transactions.html">
+                                        <span>View All</span>
+                                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                                            <path
+                                                d="m9 6 6 6-6 6"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2" />
+                                        </svg>
+                                    </a>
+                                </div>
+                                <div class="card__body">
+                                    <div
+                                        class="transaction-list"
+                                        id="transactionsList"></div>
+                                </div>
+                            </article>
+
+                            <article
+                                class="card budget-goals-card"
+                                aria-labelledby="budgetGoalsTitle">
+                                <div class="card__header">
+                                    <h2 class="card__title" id="budgetGoalsTitle">
+                                        Budget Goals
+                                    </h2>
+                                    <a
+                                        class="card__action-link"
+                                        href="./goals.html">
+                                        <span>View All</span>
+                                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                                            <path
+                                                d="m9 6 6 6-6 6"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2" />
+                                        </svg>
+                                    </a>
+                                </div>
+                                <div class="card__body">
+                                    <div
+                                        class="budget-goals-list"
+                                        id="budgetGoalsList"></div>
+                                </div>
+                            </article>
+                        </div>
+                    </section>
+                </main>
+            </div>
+
+            <div class="transaction-modal" id="transactionModal" hidden>
+                <button
+                    class="transaction-modal__backdrop"
+                    type="button"
+                    aria-label="Close add transaction dialog"
+                    data-transaction-modal-close></button>
+
+                <section
+                    class="transaction-modal__dialog"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="transactionModalTitle">
+                    <div class="transaction-modal__header">
+                        <h2
+                            class="transaction-modal__title"
+                            id="transactionModalTitle">
+                            Add Transaction
+                        </h2>
+                        <button
+                            class="transaction-modal__close"
+                            type="button"
+                            aria-label="Close add transaction dialog"
+                            data-transaction-modal-close>
+                            <svg viewBox="0 0 20 20" aria-hidden="true">
+                                <path
+                                    d="m5 5 10 10M15 5 5 15"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.8" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <form
+                        class="transaction-modal__form"
+                        id="transactionModalForm">
+                        <label
+                            class="transaction-modal__field"
+                            for="transactionType">
+                            <span class="transaction-modal__label">Type</span>
+                            <span
+                                class="transaction-modal__select-wrap"
+                                data-transaction-type-wrap>
+                                <select
+                                    class="transaction-modal__control transaction-modal__control--select"
+                                    id="transactionType"
+                                    name="type">
+                                    <option value="expense" selected>
+                                        Expense
+                                    </option>
+                                    <option value="income">Income</option>
+                                </select>
+                                <span
+                                    class="transaction-modal__chevron"
+                                    aria-hidden="true">
+                                    <svg viewBox="0 0 20 20">
+                                        <path
+                                            d="m5.5 7.5 4.5 5 4.5-5"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="1.7" />
+                                    </svg>
+                                </span>
+                            </span>
+                        </label>
+
+                        <label
+                            class="transaction-modal__field"
+                            for="transactionCategory">
+                            <span class="transaction-modal__label"
+                                >Category</span
+                            >
+                            <span class="transaction-modal__select-wrap">
+                                <select
+                                    class="transaction-modal__control transaction-modal__control--select"
+                                    id="transactionCategory"
+                                    name="category">
+                                    <option selected>Grocery</option>
+                                    <option>Food</option>
+                                    <option>Transport</option>
+                                    <option>Housing</option>
+                                    <option>Entertainment</option>
+                                    <option>Shopping</option>
+                                    <option>Other</option>
+                                </select>
+                                <span
+                                    class="transaction-modal__chevron"
+                                    aria-hidden="true">
+                                    <svg viewBox="0 0 20 20">
+                                        <path
+                                            d="m5.5 7.5 4.5 5 4.5-5"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="1.7" />
+                                    </svg>
+                                </span>
+                            </span>
+                        </label>
+
+                        <label
+                            class="transaction-modal__field transaction-modal__field--date"
+                            for="transactionDate">
+                            <span class="transaction-modal__label">Date</span>
+                            <span
+                                class="transaction-modal__input-wrap transaction-modal__input-wrap--date">
+                                <span
+                                    class="transaction-modal__input-icon"
+                                    aria-hidden="true">
+                                    <svg viewBox="0 0 20 20">
+                                        <path
+                                            d="M6 1.5v3M14 1.5v3M2.5 7h15M4.7 4h10.6C16.42 4 17 4.58 17 5.7v9.6c0 1.12-.58 1.7-1.7 1.7H4.7C3.58 17 3 16.42 3 15.3V5.7C3 4.58 3.58 4 4.7 4Z"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="1.6" />
+                                    </svg>
+                                </span>
+                                <input
+                                    class="transaction-modal__control transaction-modal__control--text"
+                                    id="transactionDate"
+                                    name="date"
+                                    type="text"
+                                    value="April 1, 2026"
+                                    readonly />
+                                <span
+                                    class="transaction-modal__chevron"
+                                    aria-hidden="true">
+                                    <svg viewBox="0 0 20 20">
+                                        <path
+                                            d="m5.5 7.5 4.5 5 4.5-5"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="1.7" />
+                                    </svg>
+                                </span>
+                            </span>
+                        </label>
+
+                        <label
+                            class="transaction-modal__field"
+                            for="transactionAmount">
+                            <span class="transaction-modal__label">Amount</span>
+                            <span
+                                class="transaction-modal__input-wrap transaction-modal__input-wrap--money">
+                                <span
+                                    class="transaction-modal__prefix"
+                                    aria-hidden="true"
+                                    >$</span
+                                >
+                                <input
+                                    class="transaction-modal__control transaction-modal__control--text"
+                                    id="transactionAmount"
+                                    name="amount"
+                                    type="text"
+                                    inputmode="decimal"
+                                    placeholder="Amount" />
+                            </span>
+                        </label>
+
+                        <label
+                            class="transaction-modal__field"
+                            for="transactionNote">
+                            <span class="transaction-modal__label">Note</span>
+                            <span
+                                class="transaction-modal__input-wrap transaction-modal__input-wrap--icon transaction-modal__input-wrap--note">
+                                <span
+                                    class="transaction-modal__input-icon"
+                                    aria-hidden="true">
+                                    <svg viewBox="0 0 12 12">
+                                        <path
+                                            d="M4.16667 1.72222H2.45556C1.77111 1.72222 1.42889 1.72222 1.16733 1.85544C0.937368 1.97262 0.750399 2.15959 0.633222 2.38956C0.5 2.65111 0.5 2.99333 0.5 3.67778V9.54444C0.5 10.2289 0.5 10.5711 0.633222 10.8327C0.750399 11.0626 0.937368 11.2496 1.16733 11.3668C1.42828 11.5 1.7705 11.5 2.45372 11.5H8.32406C9.00728 11.5 9.34889 11.5 9.60983 11.3668C9.84022 11.2494 10.0272 11.0624 10.1446 10.8327C10.2778 10.5711 10.2778 10.2295 10.2778 9.54628V7.83333M7.83333 2.33333L4.16667 6V7.83333H6L9.66667 4.16667M7.83333 2.33333L9.66667 0.5L11.5 2.33333L9.66667 4.16667M7.83333 2.33333L9.66667 4.16667"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="1" />
+                                    </svg>
+                                </span>
+                                <input
+                                    class="transaction-modal__control transaction-modal__control--text"
+                                    id="transactionNote"
+                                    name="note"
+                                    type="text"
+                                    placeholder="Note" />
+                            </span>
+                        </label>
+
+                        <div class="transaction-modal__actions">
+                            <button
+                                class="transaction-modal__button transaction-modal__button--secondary"
+                                type="button"
+                                data-transaction-modal-close>
+                                Cancel
+                            </button>
+                            <button
+                                class="transaction-modal__button transaction-modal__button--primary"
+                                type="submit">
+                                Add Transaction
+                            </button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+
+            <button
+                class="sidebar-backdrop"
+                id="sidebarBackdrop"
+                type="button"
+                aria-label="Close navigation"></button>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+        <script type="module" src="./assets/js/main.js"></script>
+    </body>
+</html>
