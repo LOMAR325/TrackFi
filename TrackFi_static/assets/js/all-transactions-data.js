@@ -8,7 +8,7 @@ export const transactionsPageContent = {
 export const transactionsSidebarItems = buildSidebarItems("transactions");
 
 export const transactionFilters = {
-  dateRange: "Apr 1, 2024 - Apr 30, 2024",
+  dateRange: "Apr 1, 2026 - Apr 30, 2026",
   type: "All Types",
   category: "All Categories",
   account: "All Accounts",
@@ -26,7 +26,7 @@ export const transactionTableColumns = [
   { key: "date", label: "Date" },
   { key: "type", label: "Type" },
   { key: "category", label: "Category" },
-  { key: "description", label: "Discription" },
+  { key: "description", label: "Description" },
   { key: "amount", label: "Amount", align: "right" },
 ];
 

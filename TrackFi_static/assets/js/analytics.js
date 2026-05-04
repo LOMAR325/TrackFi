@@ -1,4 +1,5 @@
-import { userProfile } from "./data.js";
+import { userProfile as defaultUserProfile } from "./data.js";
+import { getSavedUserProfile } from "./app-state.js";
 import { createOverviewChart, createSpendingChart } from "./charts.js";
 import {
   analyticsOverviewChartData,
@@ -27,6 +28,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function populateSharedShell() {
+  const userProfile = getSavedUserProfile(defaultUserProfile);
+
   document.querySelectorAll("[data-user-name]").forEach((element) => {
     element.textContent = userProfile.name;
   });
@@ -81,12 +84,6 @@ function renderPageSections() {
 function initializeCharts() {
   const overviewCanvas = document.getElementById("analyticsOverviewChart");
   const spendingCanvas = document.getElementById("analyticsSpendingChart");
-
-  if (typeof Chart === "undefined") {
-    injectChartFallback(overviewCanvas, "Chart.js could not be loaded for the overview chart.");
-    injectChartFallback(spendingCanvas, "Chart.js could not be loaded for the spending chart.");
-    return;
-  }
 
   createOverviewChart(overviewCanvas, analyticsOverviewChartData);
   createSpendingChart(spendingCanvas, analyticsSpendingCategories);

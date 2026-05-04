@@ -63,6 +63,25 @@ function renderIcon(name) {
   return ICONS[name] ?? "";
 }
 
+function getGoalProgress(goal) {
+  const target = Number(goal.target) || 0;
+
+  if (target <= 0) {
+    return 0;
+  }
+
+  return Math.min(Math.max((Number(goal.current) / target) * 100, 0), 100);
+}
+
+function getGoalProgressColor(progress) {
+  const clampedProgress = Math.min(Math.max(Number(progress) || 0, 0), 100);
+  const hue = Math.round((clampedProgress / 100) * 120);
+  const saturation = 78;
+  const lightness = clampedProgress < 8 ? 52 : 42;
+
+  return `hsl(${hue} ${saturation}% ${lightness}%)`;
+}
+
 function renderSidebarList(items, extraClassName = "") {
   return `
     <ul class="sidebar__list ${extraClassName}">
@@ -154,7 +173,8 @@ export function renderSpendingLegend(categories) {
 export function renderBudgetGoals(goals) {
   return goals
     .map((goal) => {
-      const progress = Math.min((goal.current / goal.target) * 100, 100);
+      const progress = getGoalProgress(goal);
+      const progressColor = getGoalProgressColor(progress);
 
       return `
         <article class="budget-goal">
@@ -176,7 +196,7 @@ export function renderBudgetGoals(goals) {
           >
             <span
               class="budget-goal__bar"
-              style="width: ${progress.toFixed(2)}%; background: ${goal.color};"
+              style="width: ${progress.toFixed(2)}%; background: ${progressColor};"
             ></span>
           </div>
         </article>
@@ -249,21 +269,21 @@ export function renderTransactionsTable(columns, rows) {
           .map(
             (row) => `
               <tr class="transactions-table__row">
-                <td class="transactions-table__cell transactions-table__cell--date">
+                <td class="transactions-table__cell transactions-table__cell--date" data-label="${escapeHtml(columns[0]?.label ?? "Date")}">
                   ${escapeHtml(row.date)}
                 </td>
-                <td class="transactions-table__cell transactions-table__cell--type">
+                <td class="transactions-table__cell transactions-table__cell--type" data-label="${escapeHtml(columns[1]?.label ?? "Type")}">
                   <span class="transaction-badge transaction-badge--${escapeHtml(row.tone)}">
                     ${escapeHtml(row.type)}
                   </span>
                 </td>
-                <td class="transactions-table__cell transactions-table__cell--category">
+                <td class="transactions-table__cell transactions-table__cell--category" data-label="${escapeHtml(columns[2]?.label ?? "Category")}">
                   ${escapeHtml(row.category)}
                 </td>
-                <td class="transactions-table__cell transactions-table__cell--description">
+                <td class="transactions-table__cell transactions-table__cell--description" data-label="${escapeHtml(columns[3]?.label ?? "Description")}">
                   ${escapeHtml(row.description)}
                 </td>
-                <td class="transactions-table__cell transactions-table__cell--amount ${row.tone === "income" ? "is-income" : "is-expense"}">
+                <td class="transactions-table__cell transactions-table__cell--amount ${row.tone === "income" ? "is-income" : "is-expense"}" data-label="${escapeHtml(columns[4]?.label ?? "Amount")}">
                   ${escapeHtml(row.amount)}
                 </td>
               </tr>
@@ -281,13 +301,13 @@ export function renderCategoriesList(categories) {
       ${categories
         .map(
           (category) => `
-            <article class="category-row" role="listitem">
+            <article class="category-row" role="listitem" data-category-id="${escapeHtml(category.id)}">
               <p class="category-row__name">${escapeHtml(category.name)}</p>
               <div class="category-row__actions" role="group" aria-label="${escapeHtml(category.name)} actions">
-                <button class="category-action" type="button">
+                <button class="category-action" type="button" data-category-action="edit">
                   ${escapeHtml(category.editLabel)}
                 </button>
-                <button class="category-action category-action--delete" type="button">
+                <button class="category-action category-action--delete" type="button" data-category-action="delete">
                   ${escapeHtml(category.deleteLabel)}
                 </button>
               </div>
@@ -304,12 +324,13 @@ export function renderGoalsManager(goals) {
     <div class="goals-manager" role="list">
       ${goals
         .map((goal) => {
-          const progress = Math.min((goal.current / goal.target) * 100, 100);
+          const progress = getGoalProgress(goal);
+          const progressColor = getGoalProgressColor(progress);
           const currentText = goal.currentDisplay ?? formatCurrency(goal.current);
           const targetText = goal.targetDisplay ?? formatCurrency(goal.target);
 
           return `
-            <article class="goal-row" role="listitem">
+            <article class="goal-row" role="listitem" data-goal-id="${escapeHtml(goal.id)}">
               <div class="goal-row__content">
                 <div class="goal-row__meta">
                   <div class="goal-row__title-group">
@@ -332,15 +353,15 @@ export function renderGoalsManager(goals) {
                 >
                   <span
                     class="goal-row__bar"
-                    style="width: ${progress.toFixed(2)}%; background: ${goal.color};"
+                    style="width: ${progress.toFixed(2)}%; background: ${progressColor};"
                   ></span>
                 </div>
               </div>
               <div class="goal-row__actions" role="group" aria-label="${escapeHtml(goal.name)} actions">
-                <button class="goal-row__contribute" type="button">${escapeHtml(goal.contributeLabel)}</button>
+                <button class="goal-row__contribute" type="button" data-goal-action="contribute">${escapeHtml(goal.contributeLabel)}</button>
                 <div class="goal-row__minor-actions">
-                  <button class="category-action" type="button">${escapeHtml(goal.editLabel)}</button>
-                  <button class="category-action category-action--delete" type="button">${escapeHtml(goal.deleteLabel)}</button>
+                  <button class="category-action" type="button" data-goal-action="edit">${escapeHtml(goal.editLabel)}</button>
+                  <button class="category-action category-action--delete" type="button" data-goal-action="delete">${escapeHtml(goal.deleteLabel)}</button>
                 </div>
               </div>
             </article>

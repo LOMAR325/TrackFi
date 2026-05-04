@@ -868,8 +868,8 @@ svg {
 }
 
 .overview-card {
-  min-height: 342px;
-  padding: 15px 0 9px;
+  min-height: 0;
+  padding: 15px 0 16px;
 }
 
 .overview-card .card__header {
@@ -878,7 +878,11 @@ svg {
 }
 
 .overview-card .card__body {
-  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: stretch;
+  padding: 0 26px;
 }
 
 .recent-transactions-card {
@@ -933,15 +937,23 @@ svg {
 
 .chart-shell {
   position: relative;
+  width: 100%;
+  min-width: 0;
+}
+
+.chart-shell canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .chart-shell--overview {
-  height: 225px;
+  height: clamp(240px, 18vw, 300px);
 }
 
 .chart-shell--spending {
-  width: 234px;
-  height: 225px;
+  width: min(100%, 280px);
+  height: clamp(220px, 22vw, 280px);
 }
 
 .chart-shell__fallback {
@@ -960,9 +972,49 @@ svg {
   gap: 36px;
   width: 279px;
   height: 37px;
-  margin: 9px auto 0;
+  margin: 0 auto;
   border: 1px solid #f3f3f3;
   border-radius: 5px;
+}
+
+.chart-tooltip {
+  position: fixed;
+  z-index: 130;
+  min-width: 150px;
+  max-width: min(260px, calc(100vw - 24px));
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  background: rgba(17, 24, 39, 0.94);
+  color: #ffffff;
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.22);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(4px);
+  transition:
+    opacity var(--transition),
+    transform var(--transition);
+}
+
+.chart-tooltip.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.chart-tooltip__title,
+.chart-tooltip__line {
+  margin: 0;
+  line-height: 1.35;
+}
+
+.chart-tooltip__title {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.chart-tooltip__line {
+  margin-top: 4px;
+  font-size: 12px;
 }
 
 .overview-card__legend-item {
@@ -1055,7 +1107,7 @@ svg {
 
 .spending-card__body {
   display: grid;
-  grid-template-columns: minmax(200px, 234px) minmax(0, 1fr);
+  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
   align-items: start;
   gap: 50px;
 }
@@ -1693,7 +1745,7 @@ svg {
 }
 
 .analytics-overview-card__chart {
-  height: 225px;
+  height: clamp(280px, 22vw, 340px);
 }
 
 .analytics-spending-card {
@@ -1703,7 +1755,7 @@ svg {
 
 .analytics-spending-card__body {
   display: grid;
-  grid-template-columns: minmax(200px, 234px) minmax(0, 1fr);
+  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
   align-items: start;
   gap: 56px;
 }
@@ -2373,11 +2425,11 @@ svg {
   }
 
   .chart-shell--overview {
-    height: 300px;
+    height: 280px;
   }
 
   .overview-card__legend {
-    margin-top: 12px;
+    margin-top: 0;
   }
 
   .spending-card__body {
@@ -2666,7 +2718,7 @@ svg {
   }
 
   .chart-shell--overview {
-    height: 260px;
+    height: 250px;
   }
 
   .chart-shell--spending {
@@ -2726,5 +2778,575 @@ svg {
   .spending-legend__item,
   .budget-goal__meta {
     align-items: flex-start;
+  }
+}
+
+@media (max-width: 640px) {
+  .app-header {
+    min-height: 58px;
+    padding-inline: 14px;
+  }
+
+  .brand__label {
+    font-size: 20px;
+  }
+
+  .user-dropdown__trigger {
+    min-height: 36px;
+    padding-right: 8px;
+  }
+
+  .dashboard,
+  .transactions-page,
+  .categories-page,
+  .analytics-page,
+  .goals-page,
+  .settings-page {
+    padding: 20px 14px 28px;
+  }
+
+  .dashboard-hero__title,
+  .transactions-page__title,
+  .categories-page__title,
+  .analytics-page__title,
+  .goals-page__title,
+  .settings-page__title {
+    font-size: 23px;
+  }
+
+  .transactions-summary-card {
+    gap: 14px;
+  }
+
+  .transactions-summary__value {
+    font-size: 22px;
+  }
+
+  .transactions-table-wrap {
+    overflow-x: visible;
+  }
+
+  .transactions-table {
+    min-width: 0;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+  }
+
+  .transactions-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+
+  .transactions-table__row {
+    display: block;
+    padding: 10px 12px;
+    border: 1px solid var(--divider);
+    border-radius: 8px;
+    background: var(--surface-soft);
+  }
+
+  .transactions-table__cell {
+    display: grid;
+    grid-template-columns: 110px minmax(0, 1fr);
+    gap: 12px;
+    padding: 7px 0;
+    border: 0;
+    font-size: 14px;
+  }
+
+  .transactions-table__cell::before {
+    content: attr(data-label);
+    color: var(--text-muted);
+    font-size: 12px;
+  }
+
+  .transactions-table__cell--amount {
+    padding-right: 0;
+    font-size: 17px;
+    text-align: left;
+  }
+
+  .chart-shell--overview {
+    height: 240px;
+  }
+
+  .chart-shell--spending {
+    height: 240px;
+  }
+
+  .overview-card__legend {
+    height: auto;
+    min-height: 37px;
+    flex-wrap: wrap;
+    padding: 8px 10px;
+  }
+
+  .spending-card__body,
+  .analytics-spending-card__body {
+    gap: 18px;
+  }
+}
+
+@media (max-width: 420px) {
+  .app-header__left {
+    gap: 10px;
+  }
+
+  .brand__icon,
+  .brand__icon svg {
+    width: 22px;
+    height: 20px;
+  }
+
+  .brand__label {
+    font-size: 18px;
+  }
+
+  .header-menu-toggle {
+    width: 36px;
+    height: 36px;
+  }
+
+  .user-dropdown__chevron {
+    display: none;
+  }
+
+  .transactions-table__cell {
+    grid-template-columns: 88px minmax(0, 1fr);
+  }
+
+  .spending-legend__label,
+  .spending-legend__value {
+    font-size: 14px;
+  }
+}
+
+.native-date-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.floating-popover {
+  position: absolute;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  opacity: 0;
+  transform: translateY(-4px);
+  transition:
+    opacity var(--transition),
+    transform var(--transition);
+}
+
+.floating-popover.is-open {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.floating-popover__item {
+  display: flex;
+  align-items: center;
+  min-height: 34px;
+  width: 100%;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text);
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.floating-popover__item:hover,
+.floating-popover__item:focus-visible,
+.floating-popover__item.is-active {
+  background: rgba(80, 108, 146, 0.14);
+  color: var(--primary);
+}
+
+.date-range-popover {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 260px;
+}
+
+.date-range-popover__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--text);
+  font-size: 13px;
+}
+
+.date-range-popover__field input {
+  min-height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface-soft);
+  color: var(--text);
+  font: inherit;
+}
+
+.date-range-popover__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.date-range-popover__button {
+  min-height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.date-range-popover__button--primary {
+  border-color: var(--success);
+  background: var(--success);
+  color: #ffffff;
+}
+
+.form-dialog {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.form-dialog__backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(0, 0, 0, 0.36);
+  cursor: pointer;
+}
+
+.form-dialog__panel {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 440px);
+  overflow: hidden;
+  border-radius: var(--card-radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.form-dialog__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 18px;
+  border-bottom: 2px solid var(--divider);
+}
+
+.form-dialog__title {
+  margin: 0;
+  color: var(--text);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.form-dialog__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.form-dialog__close:hover,
+.form-dialog__close:focus-visible {
+  background: var(--surface-soft);
+  color: var(--text);
+}
+
+.form-dialog__close svg {
+  width: 18px;
+  height: 18px;
+}
+
+.form-dialog__form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 18px;
+}
+
+.form-dialog__field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.form-dialog__label,
+.form-dialog__description {
+  margin: 0;
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.form-dialog__control {
+  min-height: 36px;
+  width: 100%;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface-soft);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+}
+
+.form-dialog__control[type="color"] {
+  padding: 3px;
+}
+
+.form-dialog__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.form-dialog__button {
+  min-height: 34px;
+  padding: 0 16px;
+  border-radius: 6px;
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.form-dialog__button--secondary {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--danger);
+}
+
+.form-dialog__button--primary {
+  border: 1px solid var(--success);
+  background: var(--success);
+  color: #ffffff;
+}
+
+.app-toast {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 120;
+  max-width: min(360px, calc(100vw - 40px));
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: var(--success);
+  color: #ffffff;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition:
+    opacity var(--transition),
+    transform var(--transition);
+}
+
+.app-toast[data-tone="error"] {
+  background: var(--danger);
+}
+
+.app-toast.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+:root[data-theme="dark"] {
+  --page-bg: #222222;
+  --surface: #121212;
+  --surface-soft: #191919;
+  --primary: #3b5681;
+  --primary-soft: #506c92;
+  --success: #2f8a3a;
+  --danger: #e01834;
+  --text: #dedede;
+  --text-muted: #b8b8b8;
+  --text-subtle: #8eb8f2;
+  --border: #d8d8d8;
+  --divider: #d7d7d7;
+  --shadow: 4px 4px 50px 1px rgba(0, 0, 0, 0.12);
+}
+
+:root[data-theme="light"] {
+  --page-bg: #f3f4f6;
+  --surface: #ffffff;
+  --surface-soft: #f8fafc;
+  --primary: #344d74;
+  --primary-soft: #506c92;
+  --success: #2f7c33;
+  --danger: #cd1f2e;
+  --text: #1f2937;
+  --text-muted: #6b7280;
+  --text-subtle: #506c92;
+  --border: #e5e5e5;
+  --divider: #f4f4f4;
+  --shadow: 4px 4px 50px 1px rgba(0, 0, 0, 0.05);
+}
+
+:root[data-theme="dark"] body,
+:root[data-theme="dark"] .login-page {
+  background: var(--page-bg);
+}
+
+:root[data-theme="dark"] .sidebar {
+  background: var(--page-bg);
+}
+
+:root[data-theme="dark"] .user-dropdown__menu,
+:root[data-theme="dark"] .transaction-modal__dialog,
+:root[data-theme="dark"] .login-card,
+:root[data-theme="dark"] .stat-card,
+:root[data-theme="dark"] .card,
+:root[data-theme="dark"] .transactions-filters-card,
+:root[data-theme="dark"] .transactions-summary-card,
+:root[data-theme="dark"] .transactions-table-card,
+:root[data-theme="dark"] .categories-card,
+:root[data-theme="dark"] .goals-manager-card,
+:root[data-theme="dark"] .settings-card,
+:root[data-theme="dark"] .floating-popover,
+:root[data-theme="dark"] .form-dialog__panel {
+  background: var(--surface);
+}
+
+:root[data-theme="dark"] .app-layout {
+  background: var(--page-bg);
+}
+
+:root[data-theme="dark"] .dashboard,
+:root[data-theme="dark"] .transactions-page,
+:root[data-theme="dark"] .categories-page,
+:root[data-theme="dark"] .analytics-page,
+:root[data-theme="dark"] .goals-page,
+:root[data-theme="dark"] .settings-page {
+  background: var(--page-bg);
+}
+
+:root[data-theme="dark"] .filter-control,
+:root[data-theme="dark"] .search-control,
+:root[data-theme="dark"] .transaction-modal__select-wrap,
+:root[data-theme="dark"] .transaction-modal__input-wrap,
+:root[data-theme="dark"] .login-field__control,
+:root[data-theme="dark"] .settings-field__input,
+:root[data-theme="dark"] .category-action,
+:root[data-theme="dark"] .theme-toggle,
+:root[data-theme="dark"] .form-dialog__control,
+:root[data-theme="dark"] .date-range-popover__field input {
+  border-color: var(--border);
+  background: var(--surface);
+  color: var(--text);
+}
+
+:root[data-theme="dark"] .filter-control:hover,
+:root[data-theme="dark"] .filter-control:focus-visible,
+:root[data-theme="dark"] .search-control:focus-within,
+:root[data-theme="dark"] .transaction-modal__select-wrap:hover,
+:root[data-theme="dark"] .transaction-modal__input-wrap:hover,
+:root[data-theme="dark"] .transaction-modal__select-wrap:focus-within,
+:root[data-theme="dark"] .transaction-modal__input-wrap:focus-within,
+:root[data-theme="dark"] .login-field__control:hover,
+:root[data-theme="dark"] .login-field__control:focus-within,
+:root[data-theme="dark"] .category-action:hover,
+:root[data-theme="dark"] .category-action:focus-visible {
+  border-color: #ffffff;
+  background: #151515;
+}
+
+:root[data-theme="dark"] .settings-edit-button {
+  border-color: var(--border);
+  background: transparent;
+  color: var(--success);
+}
+
+:root[data-theme="dark"] .theme-toggle__option.is-active {
+  background: var(--primary);
+  color: #ffffff;
+}
+
+:root[data-theme="dark"] .theme-toggle__option:first-child {
+  color: var(--text);
+}
+
+:root[data-theme="dark"] .overview-card__legend {
+  border-color: var(--border);
+}
+
+:root[data-theme="dark"] .transaction-modal__backdrop,
+:root[data-theme="dark"] .form-dialog__backdrop {
+  background: rgba(0, 0, 0, 0.48);
+}
+
+:root[data-theme="dark"] .transaction-modal__button--secondary,
+:root[data-theme="dark"] .form-dialog__button--secondary,
+:root[data-theme="dark"] .date-range-popover__button {
+  border-color: var(--border);
+  background: var(--surface);
+  color: var(--danger);
+}
+
+:root[data-theme="dark"] .chart-shell__fallback {
+  background: var(--surface-soft);
+  color: var(--text-muted);
+}
+
+:root[data-theme="dark"] input,
+:root[data-theme="dark"] select {
+  color-scheme: dark;
+}
+
+@media (max-width: 767px) {
+  :root[data-theme="dark"] .sidebar {
+    background: var(--page-bg);
+  }
+
+  .form-dialog {
+    padding: 16px;
+  }
+
+  .form-dialog__actions {
+    flex-direction: column-reverse;
+  }
+
+  .form-dialog__button {
+    width: 100%;
   }
 }

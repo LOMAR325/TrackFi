@@ -1,12 +1,28 @@
-import { userProfile } from "./data.js";
+import { userProfile as defaultUserProfile } from "./data.js";
 import {
   accountSettings,
   appearanceSettings,
   settingsPageContent,
   settingsSidebarItems,
 } from "./settings-data.js";
-import { initSidebarToggle, initUserDropdown } from "./interactions.js";
+import {
+  getInitials,
+  getSavedUserProfile,
+  saveUserProfile,
+} from "./app-state.js";
+import {
+  initSidebarToggle,
+  initThemeControls,
+  initUserDropdown,
+  openFormDialog,
+  showToast,
+} from "./interactions.js";
 import { renderSidebar, renderUserMenu } from "./renderers.js";
+
+let userProfile = getSavedUserProfile({
+  ...defaultUserProfile,
+  email: accountSettings.emailValue,
+});
 
 document.addEventListener("DOMContentLoaded", () => {
   populateSharedShell();
@@ -14,6 +30,8 @@ document.addEventListener("DOMContentLoaded", () => {
   populateSettingsFields();
   initSidebarToggle();
   initUserDropdown();
+  initThemeControls();
+  initSettingsActions();
 });
 
 function populateSharedShell() {
@@ -71,11 +89,11 @@ function populateSettingsFields() {
   }
 
   if (nameInput) {
-    nameInput.value = accountSettings.nameValue;
+    nameInput.value = userProfile.name;
   }
 
   if (email) {
-    email.textContent = accountSettings.emailValue;
+    email.textContent = userProfile.email || accountSettings.emailValue;
   }
 
   if (editLabel) {
@@ -98,6 +116,47 @@ function populateSettingsFields() {
   syncThemeOption(darkOption, appearanceSettings.options.find((option) => option.id === "dark"));
 }
 
+function initSettingsActions() {
+  const nameInput = document.getElementById("settingsName");
+  const saveButton = document.querySelector(".save-settings-button");
+  const editButton = document.querySelector(".settings-edit-button");
+  const changePassword = document.querySelector("[data-change-password-label]");
+
+  editButton?.addEventListener("click", () => {
+    nameInput?.focus();
+    nameInput?.select();
+  });
+
+  saveButton?.addEventListener("click", () => {
+    const name = nameInput?.value.trim() || userProfile.name;
+
+    userProfile = {
+      ...userProfile,
+      name,
+      initials: getInitials(name),
+    };
+
+    saveUserProfile(userProfile);
+    populateSharedShell();
+    showToast("Settings saved");
+  });
+
+  changePassword?.addEventListener("click", (event) => {
+    event.preventDefault();
+    openFormDialog({
+      title: "Change Password",
+      submitText: "Update Password",
+      fields: [
+        { name: "current", label: "Current Password", type: "password", required: true },
+        { name: "next", label: "New Password", type: "password", required: true },
+      ],
+      onSubmit() {
+        showToast("Password updated");
+      },
+    });
+  });
+}
+
 function syncThemeOption(element, option) {
   if (!element || !option) {
     return;
@@ -108,6 +167,4 @@ function syncThemeOption(element, option) {
   if (label) {
     label.textContent = option.label;
   }
-
-  element.classList.toggle("is-active", option.active);
 }

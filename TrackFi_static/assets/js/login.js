@@ -1,3 +1,5 @@
+import "./interactions.js";
+
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("loginForm");
 

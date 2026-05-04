@@ -4,9 +4,16 @@ import {
   sidebarItems,
   spendingCategories,
   statsCards,
-  transactions,
+  transactions as fallbackTransactions,
   userProfile,
 } from "./data.js";
+import {
+  createTransactionFromForm,
+  getSavedUserProfile,
+  readTransactions,
+  transactionToRecentItem,
+  writeTransactions,
+} from "./app-state.js";
 import { createOverviewChart, createSpendingChart } from "./charts.js";
 import {
   initSidebarToggle,
@@ -27,25 +34,34 @@ document.addEventListener("DOMContentLoaded", () => {
   renderDashboardSections();
   initializeCharts();
   initSidebarToggle();
-  initTransactionModal();
+  initTransactionModal({
+    defaultDate: new Date(2026, 3, 1),
+    onSubmit(values) {
+      const savedTransactions = readTransactions(fallbackTransactions);
+      writeTransactions([createTransactionFromForm(values), ...savedTransactions]);
+      renderDashboardSections();
+    },
+  });
   initUserDropdown();
 });
 
 function populateStaticFields() {
+  const profile = getSavedUserProfile(userProfile);
+
   document
     .querySelectorAll("[data-user-name], [data-user-greeting]")
     .forEach((element) => {
-      element.textContent = userProfile.name;
+      element.textContent = profile.name;
     });
 
   const avatar = document.querySelector(".user-dropdown__avatar");
   if (avatar) {
-    avatar.textContent = userProfile.initials;
+    avatar.textContent = profile.initials;
   }
 
   const userMenu = document.getElementById("userDropdownMenu");
   if (userMenu) {
-    userMenu.innerHTML = renderUserMenu(userProfile.menuItems);
+    userMenu.innerHTML = renderUserMenu(profile.menuItems);
   }
 }
 
@@ -65,7 +81,12 @@ function renderDashboardSections() {
   }
 
   if (transactionsList) {
-    transactionsList.innerHTML = renderTransactions(transactions);
+    const savedTransactions = readTransactions([]);
+    const recentTransactions = savedTransactions.length
+      ? savedTransactions.slice(0, 7).map(transactionToRecentItem)
+      : fallbackTransactions;
+
+    transactionsList.innerHTML = renderTransactions(recentTransactions);
   }
 
   if (spendingLegend) {
@@ -80,12 +101,6 @@ function renderDashboardSections() {
 function initializeCharts() {
   const overviewCanvas = document.getElementById("overviewChart");
   const spendingCanvas = document.getElementById("spendingChart");
-
-  if (typeof Chart === "undefined") {
-    injectChartFallback(overviewCanvas, "Chart.js could not be loaded for the overview chart.");
-    injectChartFallback(spendingCanvas, "Chart.js could not be loaded for the spending chart.");
-    return;
-  }
 
   createOverviewChart(overviewCanvas, overviewChartData);
   createSpendingChart(spendingCanvas, spendingCategories);
