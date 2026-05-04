@@ -16,7 +16,10 @@
   --header-height: 62px;
   --sidebar-width: 339px;
   --sidebar-collapsed-width: 92px;
-  --content-width: 997px;
+  --app-max-width: 1680px;
+  --content-width: 1280px;
+  --page-gutter: clamp(18px, 2vw, 40px);
+  --grid-gap: clamp(16px, 1.35vw, 24px);
   --transition: 180ms ease;
 }
 
@@ -231,8 +234,10 @@ svg {
 
 .app-layout {
   display: grid;
-  grid-template-columns: clamp(280px, 22.42vw, var(--sidebar-width)) minmax(0, 1fr);
+  grid-template-columns: clamp(240px, 18vw, 300px) minmax(0, 1fr);
+  width: min(100%, var(--app-max-width));
   min-height: calc(100vh - var(--header-height));
+  margin-inline: auto;
 }
 
 .sidebar {
@@ -277,7 +282,7 @@ svg {
   align-items: center;
   gap: 15px;
   min-height: 41px;
-  padding: 11px 24px 11px 118px;
+  padding: 11px 20px 11px clamp(28px, 4vw, 64px);
   border-radius: 0 10px 10px 0;
   color: var(--text);
   font-size: 16px;
@@ -316,8 +321,10 @@ svg {
 .dashboard {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  padding: 40px 20px 38px;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  padding: 40px var(--page-gutter) 38px;
 }
 
 .dashboard-hero,
@@ -801,13 +808,8 @@ svg {
 
 .dashboard-stats {
   display: grid;
-  grid-template-columns:
-    minmax(240px, 285px)
-    minmax(160px, 184px)
-    minmax(160px, 183px)
-    minmax(240px, 285px);
-  justify-content: space-between;
-  gap: 20px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--grid-gap);
   margin-bottom: 47px;
 }
 
@@ -851,9 +853,8 @@ svg {
 
 .dashboard-columns {
   display: grid;
-  grid-template-columns: minmax(0, 590px) minmax(320px, 387px);
-  justify-content: space-between;
-  gap: 20px;
+  grid-template-columns: minmax(0, 2fr) minmax(320px, 1fr);
+  gap: var(--grid-gap);
 }
 
 .dashboard-column {
@@ -1109,10 +1110,11 @@ svg {
   display: grid;
   grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
   align-items: start;
-  gap: 50px;
+  gap: var(--grid-gap);
 }
 
 .spending-card__legend {
+  min-width: 0;
   display: flex;
   flex-direction: column;
   padding-top: 10px;
@@ -1224,8 +1226,10 @@ svg {
 .transactions-page {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  padding: 40px 20px 60px;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  padding: 40px var(--page-gutter) 60px;
 }
 
 .transactions-page__hero,
@@ -1274,7 +1278,12 @@ svg {
 
 .transactions-filters {
   display: grid;
-  grid-template-columns: 234px 99px 128px 123px minmax(200px, 1fr);
+  grid-template-columns:
+    minmax(210px, 1.35fr)
+    minmax(100px, 0.7fr)
+    minmax(130px, 0.9fr)
+    minmax(130px, 0.9fr)
+    minmax(220px, 2fr);
   gap: 13px;
   align-items: center;
 }
@@ -1343,10 +1352,12 @@ svg {
   display: inline-flex;
   align-items: center;
   min-width: 0;
+  overflow: hidden;
   color: var(--text);
   font-size: 13px;
   font-weight: 400;
   line-height: 1;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
@@ -1581,8 +1592,10 @@ svg {
 .categories-page {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  padding: 40px 20px 60px;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  padding: 40px var(--page-gutter) 60px;
 }
 
 .categories-page__hero,
@@ -1690,8 +1703,10 @@ svg {
 .analytics-page {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  padding: 40px 20px 60px;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  padding: 40px var(--page-gutter) 60px;
 }
 
 .analytics-page__hero,
@@ -1757,13 +1772,13 @@ svg {
   display: grid;
   grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
   align-items: start;
-  gap: 56px;
+  gap: var(--grid-gap);
 }
 
 .analytics-spending-card__legends {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 56px;
+  gap: var(--grid-gap);
   width: 100%;
 }
 
@@ -1774,8 +1789,10 @@ svg {
 .goals-page {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  padding: 40px 20px 60px;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  padding: 40px var(--page-gutter) 60px;
 }
 
 .goals-page__hero,
@@ -1875,6 +1892,7 @@ svg {
   font-size: 20px;
   font-weight: 500;
   line-height: 1.2;
+  overflow-wrap: anywhere;
 }
 
 .goal-row__label {
@@ -1926,6 +1944,8 @@ svg {
 }
 
 .goal-row__actions {
+  width: 100%;
+  max-width: 140px;
   display: flex;
   flex-direction: column;
   gap: 7px;
@@ -1960,8 +1980,10 @@ svg {
 .settings-page {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  padding: 40px 20px 60px;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  padding: 40px var(--page-gutter) 60px;
 }
 
 .settings-page__hero,
@@ -1984,8 +2006,8 @@ svg {
 
 .settings-layout {
   display: grid;
-  grid-template-columns: minmax(0, 692px) minmax(260px, 285px);
-  gap: 22px;
+  grid-template-columns: minmax(0, 2.2fr) minmax(260px, 0.9fr);
+  gap: var(--grid-gap);
   align-items: start;
 }
 
@@ -2208,6 +2230,8 @@ svg {
 
   .app-layout {
     grid-template-columns: var(--sidebar-collapsed-width) minmax(0, 1fr);
+    width: 100%;
+    max-width: none;
   }
 
   .sidebar {
@@ -2454,6 +2478,7 @@ svg {
   }
 
   .analytics-spending-card__legends {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 24px;
   }
 
@@ -2496,6 +2521,7 @@ svg {
 
   .app-layout {
     grid-template-columns: 1fr;
+    width: 100%;
   }
 
   .sidebar {
@@ -2661,13 +2687,19 @@ svg {
   }
 
   .category-row {
-    flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: 12px;
   }
 
+  .category-row__name {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
   .category-row__actions {
-    flex-wrap: wrap;
+    flex: 0 0 auto;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
   }
 
   .analytics-summary-card .transactions-summary {
@@ -2706,10 +2738,16 @@ svg {
   }
 
   .goal-row__minor-actions {
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
   }
 
   .goal-row__contribute {
+    width: 100%;
+  }
+
+  .goal-row__minor-actions .category-action {
     width: 100%;
   }
 
@@ -2768,11 +2806,23 @@ svg {
   }
 
   .transaction {
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr) minmax(86px, max-content);
     grid-template-areas:
       "copy amount"
       "copy date";
     align-items: start;
+    gap: 4px 12px;
+    padding: 12px 0;
+  }
+
+  .transaction__title {
+    overflow-wrap: anywhere;
+  }
+
+  .transaction__amount,
+  .transaction__date {
+    justify-self: end;
+    text-align: right;
   }
 
   .spending-legend__item,
@@ -2805,6 +2855,51 @@ svg {
     padding: 20px 14px 28px;
   }
 
+  .dashboard-column {
+    gap: 16px;
+  }
+
+  .overview-card,
+  .recent-transactions-card,
+  .spending-card,
+  .budget-goals-card {
+    padding: 16px;
+  }
+
+  .card__header {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .card__title {
+    font-size: 17px;
+  }
+
+  .card__action-link {
+    flex: 0 0 auto;
+    font-size: 15px;
+  }
+
+  .transaction__title {
+    font-size: 15px;
+    line-height: 1.2;
+  }
+
+  .transaction__category {
+    font-size: 12px;
+    line-height: 1.2;
+  }
+
+  .transaction__amount {
+    font-size: 16px;
+    line-height: 1.2;
+  }
+
+  .transaction__date {
+    font-size: 12px;
+    line-height: 1.2;
+  }
+
   .dashboard-hero__title,
   .transactions-page__title,
   .categories-page__title,
@@ -2826,10 +2921,17 @@ svg {
     overflow-x: visible;
   }
 
+  .transactions-table-card {
+    overflow: visible;
+    background: transparent;
+    box-shadow: none;
+  }
+
   .transactions-table {
+    display: block;
     min-width: 0;
     border-collapse: separate;
-    border-spacing: 0 10px;
+    border-spacing: 0;
   }
 
   .transactions-table thead {
@@ -2843,33 +2945,78 @@ svg {
     border: 0;
   }
 
+  .transactions-table tbody {
+    display: grid;
+    gap: 12px;
+  }
+
   .transactions-table__row {
-    display: block;
-    padding: 10px 12px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "category amount"
+      "description amount"
+      "date type";
+    gap: 7px 14px;
+    padding: 14px;
     border: 1px solid var(--divider);
-    border-radius: 8px;
-    background: var(--surface-soft);
+    border-radius: 10px;
+    background: var(--surface);
+    box-shadow: var(--shadow);
   }
 
   .transactions-table__cell {
-    display: grid;
-    grid-template-columns: 110px minmax(0, 1fr);
-    gap: 12px;
-    padding: 7px 0;
+    display: block;
+    min-width: 0;
+    padding: 0;
     border: 0;
     font-size: 14px;
   }
 
   .transactions-table__cell::before {
-    content: attr(data-label);
+    content: none;
+  }
+
+  .transactions-table__cell--category {
+    grid-area: category;
+    font-size: 16px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+
+  .transactions-table__cell--description {
+    grid-area: description;
     color: var(--text-muted);
-    font-size: 12px;
+    overflow-wrap: anywhere;
+  }
+
+  .transactions-table__cell--date {
+    grid-area: date;
+    align-self: end;
+    color: var(--text-subtle);
+    font-size: 13px;
+  }
+
+  .transactions-table__cell--type {
+    grid-area: type;
+    align-self: end;
+    justify-self: end;
   }
 
   .transactions-table__cell--amount {
+    grid-area: amount;
+    align-self: start;
+    justify-self: end;
     padding-right: 0;
-    font-size: 17px;
-    text-align: left;
+    font-size: 19px;
+    text-align: right;
+  }
+
+  .transaction-badge {
+    min-width: auto;
+    min-height: 22px;
+    padding-inline: 8px;
+    font-size: 12px;
   }
 
   .chart-shell--overview {
@@ -2921,6 +3068,20 @@ svg {
     grid-template-columns: 88px minmax(0, 1fr);
   }
 
+  .category-row {
+    gap: 8px;
+    padding-inline: 12px;
+  }
+
+  .category-action {
+    min-width: auto;
+    padding-inline: 10px;
+  }
+
+  .category-action--delete {
+    min-width: auto;
+  }
+
   .spending-legend__label,
   .spending-legend__value {
     font-size: 14px;
@@ -2955,6 +3116,10 @@ svg {
     transform var(--transition);
 }
 
+.floating-popover--date {
+  padding: 16px;
+}
+
 .floating-popover.is-open {
   opacity: 1;
   transform: translateY(0);
@@ -2986,7 +3151,7 @@ svg {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  width: 260px;
+  width: 100%;
 }
 
 .date-range-popover__field {
@@ -2998,6 +3163,7 @@ svg {
 }
 
 .date-range-popover__field input {
+  width: 100%;
   min-height: 34px;
   padding: 0 10px;
   border: 1px solid var(--border);

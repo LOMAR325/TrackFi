@@ -409,6 +409,7 @@ function positionPopover(anchor, popover) {
   const left = Math.min(window.innerWidth - popoverWidth - 12, Math.max(12, rect.left));
 
   popover.style.minWidth = `${popoverWidth}px`;
+  popover.style.width = `${popoverWidth}px`;
   popover.style.left = `${left + window.scrollX}px`;
   popover.style.top = `${rect.bottom + window.scrollY + 8}px`;
 }
