@@ -1,4 +1,4 @@
-import { useAppState } from "../app/AppContext";
+import { useAppState } from "../app/useAppState";
 import { PageHero } from "../components/common/PageHero";
 import { ProgressBar } from "../components/common/ProgressBar";
 import { SummaryList } from "../components/common/SummaryList";
@@ -11,6 +11,7 @@ function GoalsPage() {
   return (
     <main className="goals-page">
       <PageHero
+        actionClassName="new-transaction-button--goal"
         actionLabel="New Goal"
         onAction={startGoalCreate}
         subtitle="Review all your goals."

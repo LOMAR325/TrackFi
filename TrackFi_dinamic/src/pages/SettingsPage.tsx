@@ -1,25 +1,55 @@
-import { useRef, useState } from "react";
-import { useAppState } from "../app/AppContext";
+import { useEffect, useRef, useState } from "react";
+import { useAppState } from "../app/useAppState";
 import { Icon } from "../components/icons/Icon";
 import { Button } from "../components/ui";
+import type { Theme } from "../data";
 import { getValidationMessage, settingsSchema } from "../validation";
 
 function SettingsPage() {
-  const { openModal, setTheme, setUserName, theme, userEmail, userName } = useAppState();
+  const { openModal, setTheme, setUserEmail, setUserName, theme, userEmail, userName } = useAppState();
+  const [emailEditing, setEmailEditing] = useState(false);
+  const [draftEmail, setDraftEmail] = useState(userEmail);
   const [draftName, setDraftName] = useState(userName);
+  const [draftTheme, setDraftTheme] = useState<Theme>(theme);
+  const emailInputRef = useRef<HTMLInputElement>(null);
   const nameInputRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+    setDraftName(userName);
+  }, [userName]);
+
+  useEffect(() => {
+    setDraftEmail(userEmail);
+  }, [userEmail]);
+
+  useEffect(() => {
+    setDraftTheme(theme);
+  }, [theme]);
+
   function saveSettings() {
-    const parsedSettings = settingsSchema.safeParse({ name: draftName });
+    const parsedSettings = settingsSchema.safeParse({ email: draftEmail, name: draftName, theme: draftTheme });
 
     if (!parsedSettings.success) {
       window.alert(getValidationMessage(parsedSettings.error));
-      nameInputRef.current?.focus();
+      const firstIssuePath = parsedSettings.error.issues[0]?.path[0];
+      const fieldToFocus = firstIssuePath === "email" ? emailInputRef : nameInputRef;
+      fieldToFocus.current?.focus();
       return;
     }
 
+    setEmailEditing(false);
+    setUserEmail(parsedSettings.data.email);
     setUserName(parsedSettings.data.name);
+    setTheme(parsedSettings.data.theme);
     window.alert("Settings saved");
+  }
+
+  function enableEmailEditing() {
+    setEmailEditing(true);
+    window.setTimeout(() => {
+      emailInputRef.current?.focus();
+      emailInputRef.current?.select();
+    }, 0);
   }
 
   return (
@@ -47,16 +77,24 @@ function SettingsPage() {
                   onChange={(event) => setDraftName(event.target.value)}
                 />
               </label>
-              <p className="settings-field__email">{userEmail}</p>
+              <label className="settings-field settings-field--email" htmlFor="settingsEmail">
+                <span className="settings-field__label">Email</span>
+                <input
+                  className={`settings-field__input ${emailEditing ? "" : "settings-field__input--readonly"}`}
+                  id="settingsEmail"
+                  readOnly={!emailEditing}
+                  ref={emailInputRef}
+                  type="email"
+                  value={draftEmail}
+                  onChange={(event) => setDraftEmail(event.target.value)}
+                />
+              </label>
               <button
                 className="settings-edit-button"
                 type="button"
-                onClick={() => {
-                  nameInputRef.current?.focus();
-                  nameInputRef.current?.select();
-                }}
+                onClick={enableEmailEditing}
               >
-                Edit
+                {emailEditing ? "Editing" : "Edit"}
               </button>
             </div>
             <button className="settings-link" type="button" onClick={() => openModal("password")}>
@@ -74,9 +112,9 @@ function SettingsPage() {
               <p className="appearance-card__label">Theme</p>
               <div className="theme-toggle" role="group" aria-label="Theme">
                 <button
-                  className={`theme-toggle__option ${theme === "light" ? "is-active" : ""}`}
+                  className={`theme-toggle__option ${draftTheme === "light" ? "is-active" : ""}`}
                   type="button"
-                  onClick={() => setTheme("light")}
+                  onClick={() => setDraftTheme("light")}
                 >
                   <span className="theme-toggle__icon" aria-hidden="true">
                     <Icon name="sun" />
@@ -84,9 +122,9 @@ function SettingsPage() {
                   <span className="theme-toggle__label">Light</span>
                 </button>
                 <button
-                  className={`theme-toggle__option ${theme === "dark" ? "is-active" : ""}`}
+                  className={`theme-toggle__option ${draftTheme === "dark" ? "is-active" : ""}`}
                   type="button"
-                  onClick={() => setTheme("dark")}
+                  onClick={() => setDraftTheme("dark")}
                 >
                   <span className="theme-toggle__icon" aria-hidden="true">
                     <Icon name="moon" />

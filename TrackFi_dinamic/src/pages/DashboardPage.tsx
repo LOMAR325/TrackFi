@@ -1,4 +1,4 @@
-import { useAppState } from "../app/AppContext";
+import { useAppState } from "../app/useAppState";
 import { OverviewCard, SpendingCard } from "../components/charts/FinanceCharts";
 import { BudgetGoalItem } from "../components/common/BudgetGoalItem";
 import { CardHeader } from "../components/common/CardHeader";

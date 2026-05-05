@@ -1,6 +1,6 @@
 import type { MouseEvent } from "react";
 import { useEffect, useRef, useState } from "react";
-import { useAppState } from "../../app/AppContext";
+import { useAppState } from "../../app/useAppState";
 import type { ChartData, SpendingCategory } from "../../data";
 import { formatCurrency } from "../../utils/formatters";
 

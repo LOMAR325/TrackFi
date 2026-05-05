@@ -1,4 +1,4 @@
-import { useAppState } from "../app/AppContext";
+import { useAppState } from "../app/useAppState";
 import { PageHero } from "../components/common/PageHero";
 
 function CategoriesPage() {
@@ -7,6 +7,7 @@ function CategoriesPage() {
   return (
     <main className="categories-page">
       <PageHero
+        actionClassName="new-transaction-button--compact"
         actionLabel="New Category"
         onAction={startCategoryCreate}
         subtitle="Review all your categories"

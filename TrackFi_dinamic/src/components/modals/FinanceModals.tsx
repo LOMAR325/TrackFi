@@ -1,6 +1,6 @@
 import type { FormEvent } from "react";
 import { useState } from "react";
-import { useAppState } from "../../app/AppContext";
+import { useAppState } from "../../app/useAppState";
 import type { TransactionType } from "../../data";
 import { categorySchema, contributionSchema, getValidationMessage, goalSchema, passwordSchema, transactionSchema } from "../../validation";
 import { Icon } from "../icons/Icon";

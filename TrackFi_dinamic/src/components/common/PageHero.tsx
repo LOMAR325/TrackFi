@@ -1,6 +1,7 @@
 import { PrimaryAction } from "./PrimaryAction";
 
 type PageHeroProps = {
+  actionClassName?: string;
   actionLabel?: string;
   onAction?: () => void;
   subtitle?: string;
@@ -9,7 +10,7 @@ type PageHeroProps = {
   variant: "dashboard" | "transactions" | "categories" | "analytics" | "goals" | "settings";
 };
 
-export function PageHero({ actionLabel, onAction, subtitle, title, titleId, variant }: PageHeroProps) {
+export function PageHero({ actionClassName = "", actionLabel, onAction, subtitle, title, titleId, variant }: PageHeroProps) {
   return (
     <section className={`${variant}-page__hero`} aria-labelledby={titleId}>
       <div>
@@ -18,7 +19,7 @@ export function PageHero({ actionLabel, onAction, subtitle, title, titleId, vari
         </h1>
         {subtitle && <p className={`${variant}-page__subtitle`}>{subtitle}</p>}
       </div>
-      {actionLabel && onAction && <PrimaryAction className={`${variant}-page__action`} label={actionLabel} onClick={onAction} />}
+      {actionLabel && onAction && <PrimaryAction className={`${variant}-page__action ${actionClassName}`} label={actionLabel} onClick={onAction} />}
     </section>
   );
 }

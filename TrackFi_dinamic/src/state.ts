@@ -182,9 +182,7 @@ function createId(prefix: string) {
 }
 
 function getInitialTheme(): Theme {
-  try {
-    return localStorage.getItem(storageKeys.theme) === "light" ? "light" : "dark";
-  } catch {
-    return "dark";
-  }
+  const storedTheme = readStoredValue<Theme>(storageKeys.theme, "dark");
+
+  return storedTheme === "light" || storedTheme === "dark" ? storedTheme : "dark";
 }

@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { useAppState } from "../app/AppContext";
+import { useAppState } from "../app/useAppState";
 import { BrandIcon, Icon } from "./icons/Icon";
 
 type HeaderProps = {

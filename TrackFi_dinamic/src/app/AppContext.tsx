@@ -1,54 +1,13 @@
 import type { ReactNode } from "react";
-import { createContext, useContext, useEffect, useReducer } from "react";
-import type { Category, Goal, Theme, Transaction } from "../data";
+import { useEffect, useReducer } from "react";
 import {
   createInitialState,
   saveStoredValue,
   storageKeys,
   trackFiReducer,
 } from "../state";
-import type { ModalKind } from "../state";
-
-type AppState = {
-  userName: string;
-  userEmail: string;
-  theme: Theme;
-  transactions: Transaction[];
-  categories: Category[];
-  goals: Goal[];
-  openModal: (kind: ModalKind) => void;
-  closeModal: () => void;
-  activeModal: ModalKind | null;
-  editingCategory: Category | null;
-  editingGoal: Goal | null;
-  selectedGoal: Goal | null;
-  setTheme: (theme: Theme) => void;
-  setUserName: (name: string) => void;
-  setUserEmail: (email: string) => void;
-  addTransaction: (transaction: Omit<Transaction, "id">) => void;
-  startCategoryCreate: () => void;
-  startCategoryEdit: (category: Category) => void;
-  saveCategory: (name: string) => void;
-  deleteCategory: (id: string) => void;
-  startGoalCreate: () => void;
-  startGoalEdit: (goal: Goal) => void;
-  startGoalContribution: (goal: Goal) => void;
-  saveGoal: (goal: Omit<Goal, "id">) => void;
-  saveContribution: (amount: number) => void;
-  deleteGoal: (id: string) => void;
-};
-
-const AppContext = createContext<AppState | null>(null);
-
-export function useAppState() {
-  const context = useContext(AppContext);
-
-  if (!context) {
-    throw new Error("useAppState must be used inside AppProvider");
-  }
-
-  return context;
-}
+import { AppContext } from "./AppContextDefinition";
+import type { AppState } from "./AppContextDefinition";
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(trackFiReducer, undefined, createInitialState);

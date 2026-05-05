@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const loginSchema = z.object({
   email: z.string().trim().email("Enter a valid email address"),
-  password: z.string().min(1, "Password is required"),
+  password: z.string().min(4, "Password must contain at least 4 characters"),
 });
 
 export const transactionSchema = z.object({
@@ -28,7 +28,9 @@ export const contributionSchema = z.object({
 });
 
 export const settingsSchema = z.object({
+  email: z.string().trim().email("Enter a valid email address"),
   name: z.string().trim().min(1, "Name is required"),
+  theme: z.enum(["light", "dark"]),
 });
 
 export const passwordSchema = z.object({
